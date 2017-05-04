@@ -13,10 +13,12 @@ namespace ConsoleApp1
         int positionToAdd = 0;
         int positionToDisplay = 0;
 
+        int[] tabela = new int[10];
+
         static void Main(string[] args)
         {
             Program program = new Program();
-            IntegerTable integerTable = new IntegerTable();
+            
 
             while (true)
             {
@@ -37,7 +39,7 @@ namespace ConsoleApp1
                     program.menuChoice = Convert.ToInt32(Console.ReadLine());
                 }
 
-
+                
                 switch (program.menuChoice)
                 {
                     
@@ -47,7 +49,15 @@ namespace ConsoleApp1
 
                         System.Console.WriteLine("On position: ");
                         program.positionToAdd = Convert.ToInt32(Console.ReadLine());
-                        integerTable[program.positionToAdd] = program.numberToAdd;
+
+                        if (program.positionToAdd > program.tabela.Length)
+                        {
+                            int newSize = program.positionToAdd;
+                            Array.Resize(ref program.tabela, newSize);
+                            program.tabela[program.positionToAdd - 1] = program.numberToAdd;
+                        }
+                        else
+                            program.tabela[program.positionToAdd - 1] = program.numberToAdd;
 
                         break;
 
@@ -57,7 +67,7 @@ namespace ConsoleApp1
                             System.Console.WriteLine("\nPosition to display: ");
                             program.positionToDisplay = Convert.ToInt32(Console.ReadLine());
 
-                            System.Console.WriteLine("table[" + program.positionToDisplay + "]: " + integerTable[program.positionToDisplay]);
+                            System.Console.WriteLine("table[" + program.positionToDisplay + "]: " + program.tabela[program.positionToDisplay - 1]);
 
                         }
                         catch (IndexOutOfRangeException)
@@ -77,20 +87,16 @@ namespace ConsoleApp1
 
             }
         }
-
-       /* public void AddNewNumberToArray(int newNumber)
+        public int this[int indeks]
         {
-            
-            table[index] = newNumber;
-            index += 1;
-        }
-
-        public void DisplayTable()
-        {
-            for (int i = 0; i < table.Count(); i++)
+            get
             {
-                System.Console.WriteLine(table[i] + " ");
+                return this.tabela[indeks];
             }
-        }*/
+            set
+            {
+                this.tabela[indeks] = value;
+            }
+        }
     }
 }
