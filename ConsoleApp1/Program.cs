@@ -8,17 +8,13 @@ namespace ConsoleApp1
 {
     class Program
     {
-        int menuChoice = 0;
-        int numberToAdd = 0;
-        int positionToAdd = 0;
-        int positionToDisplay = 0;
-
-        int[] tabela = new int[10];
-
         static void Main(string[] args)
         {
-            Program program = new Program();
-            
+            int menuChoice = 0;
+            int numberToAdd = 0;
+            int positionToAdd = 0;
+            int positionToDisplay = 0;
+            Tabela tabela = new Tabela();
 
             while (true)
             {
@@ -27,48 +23,45 @@ namespace ConsoleApp1
                 System.Console.WriteLine("2 - Display table");
                 System.Console.WriteLine("3 - Exit program");
 
-                program.menuChoice = Convert.ToInt32(Console.ReadLine());
+                menuChoice = Convert.ToInt32(Console.ReadLine());
 
-                while (!(program.menuChoice != 1 || program.menuChoice != 2))
+                while (!(menuChoice != 1 || menuChoice != 2))
                 {
                     System.Console.WriteLine("NOOO YOU CAN ONLY TAP 1 OR 2!\n");
                     System.Console.WriteLine("\n***MENU***\n");
                     System.Console.WriteLine("1 - Add integer number to table");
                     System.Console.WriteLine("2 - Display table");
                     System.Console.WriteLine("3 - Exit program");
-                    program.menuChoice = Convert.ToInt32(Console.ReadLine());
+                    menuChoice = Convert.ToInt32(Console.ReadLine());
                 }
 
                 
-                switch (program.menuChoice)
+                switch (menuChoice)
                 {
                     
                     case 1:
                         System.Console.WriteLine("\nInteger: ");
-                        program.numberToAdd = Convert.ToInt32(Console.ReadLine());
+                        numberToAdd = Convert.ToInt32(Console.ReadLine());
 
                         System.Console.WriteLine("On position: ");
-                        program.positionToAdd = Convert.ToInt32(Console.ReadLine());
+                        positionToAdd = Convert.ToInt32(Console.ReadLine());
 
-                        if (program.positionToAdd > program.tabela.Length)
+                        if (positionToAdd > tabela.Length)
                         {
-                            int newSize = program.positionToAdd;
-                            Array.Resize(ref program.tabela, newSize);
-                            program.tabela[program.positionToAdd - 1] = program.numberToAdd;
+                            tabela.Resize(positionToAdd);
+                            tabela[positionToAdd - 1] = numberToAdd;
                         }
                         else
-                            program.tabela[program.positionToAdd - 1] = program.numberToAdd;
+                            tabela[positionToAdd - 1] = numberToAdd;
 
                         break;
 
                     case 2:
                         try
                         {
-                            System.Console.WriteLine("\nPosition to display: ");
-                            program.positionToDisplay = Convert.ToInt32(Console.ReadLine());
-
-                            System.Console.WriteLine("table[" + program.positionToDisplay + "]: " + program.tabela[program.positionToDisplay - 1]);
-
+                            System.Console.WriteLine("Row table to display: ");
+                            positionToDisplay = Convert.ToInt32(Console.ReadLine());
+                            System.Console.WriteLine("tabela[" + positionToDisplay + "]: " + tabela[positionToDisplay]);
                         }
                         catch (IndexOutOfRangeException)
                         {
@@ -87,16 +80,33 @@ namespace ConsoleApp1
 
             }
         }
-        public int this[int indeks]
+    }
+}
+
+class Tabela
+{
+    private int[] temps = new int[10];
+
+    public int Length
+    {
+        get { return temps.Length; }
+    }
+
+    public void Resize(int newSize)
+    {
+        Array.Resize(ref temps, newSize);
+    }
+
+    public int this[int index]
+    {
+        get
         {
-            get
-            {
-                return this.tabela[indeks];
-            }
-            set
-            {
-                this.tabela[indeks] = value;
-            }
+            return temps[index];
+        }
+
+        set
+        {
+           temps[index] = value;
         }
     }
 }
